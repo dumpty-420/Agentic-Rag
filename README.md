@@ -207,6 +207,65 @@ TRANSFORMERS_OFFLINE=1  # optional: load HuggingFace models from cache
 
 ---
 
+Here's the comparison:
+
+## Single Agentic RAG (Enrich)
+**One agent, one knowledge base, one domain**
+
+- Handles **one query at a time** against a **single Pinecone index**
+- Agent loop: Plan → Retrieve → Rerank → Critique → Generate → Remember
+- Best for: "Answer questions about this document set"
+- Simpler state management — one `AgentState`
+- One embedding model (Gemini)
+- No domain routing needed
+
+```
+Query → Planner → Retriever → Reranker → Critic → Response Generator
+                     ↑                      |
+                     └──── loop if gaps ────┘
+```
+
+---
+
+## Multi-Agentic RAG (Enrich)
+**Multiple agents, multiple knowledge bases, multiple domains**
+
+- Handles **complex queries spanning multiple domains** (orders + products + support)
+- Has **3 separate Pinecone indexes** — one per domain
+- Orchestrator first **routes** the query to the right domain(s)
+- Multiple agents work in parallel across domains
+- Global **RRF reranking** merges results from all domains
+- Reflection loop with **max 3 retries** if critic finds gaps
+- More complex `MultiAgentState` with TypedDict
+- HuggingFace embeddings (lighter, faster for multi-index)
+
+```
+Query → Orchestrator → Planner → Researcher (orders index)
+                                           → Researcher (products index)  
+                                           → Researcher (support index)
+                                ↓
+                            Reranker (global RRF)
+                                ↓
+                            Analyst → Critic → Synthesizer
+                                         ↑          |
+                                         └── loop ──┘
+```
+
+---
+
+## Summary Table
+
+| Feature | Single Agentic | Multi-Agentic |
+|---|---|---|
+| Pinecone indexes | 1 | 3 (orders, products, support) |
+| Domain routing | ❌ | ✅ Orchestrator |
+| Query decomposition | ✅ | ✅ Per domain |
+| Parallel retrieval | ❌ | ✅ |
+| Global reranking (RRF) | ❌ | ✅ |
+| Reflection loops | ✅ | ✅ (max 3x) |
+| Memory | ✅ | ✅ |
+| Best for | Single topic QA | Cross-domain queries |
+
 ## RAG Evolution
 
 ```
