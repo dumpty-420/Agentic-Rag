@@ -1,0 +1,26 @@
+[project]
+name = "single-agentic-rag"
+version = "0.1.0"
+description = "FastAPI service for Single Agentic RAG"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "langchain>=0.3.0",
+    "langchain-google-genai>=2.0.0",
+    "pinecone>=5.0.0",
+    "python-dotenv>=1.0.1",
+    "pydantic>=2.10.0",
+    "langchain-text-splitters>=0.3.0",
+]
+
+[project.scripts]
+start = "uvicorn main:app --reload"
+
+[tool.uv]
+managed = true
+dev-dependencies = [
+    "pytest>=7.4.0",
+    "httpx>=0.24.1",
+]

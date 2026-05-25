@@ -1,0 +1,9 @@
+The Transformer is a novel neural network architecture introduced in the 'Attention Is All You Need' paper that completely eliminates recurrence and convolution, relying instead solely on attention mechanisms. The model uses stacked self-attention and point-wise fully connected layers in both encoder and decoder components. Key innovations include multi-head attention which allows the model to jointly attend to information from different representation subspaces, positional encoding to inject sequence order information, and scaled dot-product attention for efficient computation. The Transformer achieves superior performance on machine translation tasks while being more parallelizable and requiring significantly less time to train compared to recurrent or convolutional models."
+
+Additional shorter paragraphs for more testing:
+
+On Self-Attention:
+"Self-attention, sometimes called intra-attention, is an attention mechanism that relates different positions of a single sequence to compute a representation of the sequence. It uses three matrices: Query, Key, and Value, and calculates attention weights through scaled dot-products. This allows each position to attend to all positions in the previous layer, enabling the model to capture long-range dependencies more effectively than recurrent networks."
+
+On Multi-Head Attention:
+"Multi-head attention consists of multiple attention heads running in parallel, each with their own learned linear projections. This allows the model to jointly attend to information from different representation subspaces at different positions. The outputs of all heads are concatenated and linearly transformed to produce the final values, giving the model greater capacity to focus on different aspects of the input sequence simultaneously
