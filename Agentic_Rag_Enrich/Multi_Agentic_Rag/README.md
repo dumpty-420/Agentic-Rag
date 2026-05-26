@@ -36,6 +36,7 @@ How: LLM prompt combining all prior outputs into a coherent, cited response.
 
 Why It's Multi-Agent
 Each agent has a single, specialized responsibility and passes its output to the next:
+
 User Query
     ↓
 Orchestrator  →  classifies domains
@@ -51,6 +52,7 @@ Analyst       →  extracts structured findings
 Critic        →  verifies completeness
     ↓ (loops back to Planner if gaps found, max 3x)
 Synthesizer   →  generates final answer + updates memory
+
 What makes it truly multi-agent:
 
 Each agent is independently implemented in its own file
@@ -58,3 +60,8 @@ Agents communicate through a shared LangGraph state (MultiAgentState)
 The Critic creates a reflection loop — it can send the workflow back to the Planner if the answer is incomplete
 3 separate Pinecone indexes are queried in parallel by the Researcher
 The Memory module persists context across turns for conversational support
+
+
+
+
+
